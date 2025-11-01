@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수연이의 첫 번째 생일</title>
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #fff5e6 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 커버 페이지 */
+        .cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffb6d9 0%, #ffd9a6 100%);
+            position: relative;
+        }
+
+        .cover-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .cover h1 {
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .cover .subtitle {
+            font-size: 1.2em;
+            color: white;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        .cover .date {
+            font-size: 1em;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 2em;
+            color: white;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* 섹션 공통 스타일 */
+        .section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ff6b9d;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        /* 탄생 이야기 */
+        .birth-story {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .birth-photo {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .birth-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 20px;
+            background: #fff5f7;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.5em;
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        .birth-message {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 30px;
+            line-height: 1.8;
+        }
+
+        /* 월별 성장 타임라인 */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #ff6b9d, #ffd9a6);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ff6b9d;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #ffb6d9;
+        }
+
+        .month-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b9d, #ffb6d9);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* 슬라이더 스타일 */
+        .month-slider {
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+        }
+
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ff6b9d;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #ff6b9d;
+        }
+
+        .month-description {
+            color: #666;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+
+        /* 유튜브 영상 */
+        .youtube-container {
+            margin: 30px 0;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .youtube-title {
+            font-size: 1.3em;
+            color: #ff6b9d;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .youtube-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 비율 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .youtube-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 방명록 스타일 */
+        .guestbook {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 60px;
+        }
+
+        .guestbook-form {
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffe0ed;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b9d;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ffb6d9);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 방명록 목록 */
+        .guestbook-list {
+            margin-top: 40px;
+        }
+
+        .guestbook-item {
+            background: #fff5f7;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .guestbook-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .guestbook-name {
+            font-weight: bold;
+            color: #ff6b9d;
+            font-size: 1.1em;
+        }
+
+        .guestbook-date {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .guestbook-message {
+            color: #666;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+
+        .error {
+            text-align: center;
+            color: #ff6b9d;
+            padding: 20px;
+            background: #fff5f7;
+            border-radius: 10px;
+        }
+
+        /* 감사 메시지 */
+        .thank-you {
+            background: linear-gradient(135deg, #ffb6d9 0%, #ffd9a6 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin-top: 60px;
+        }
+
+        .thank-you h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .thank-you p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .signature {
+            margin-top: 40px;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .cover h1 {
+                font-size: 2em;
+            }
+            
+            .section-title {
+                font-size: 1.5em;
+            }
+            
+            .birth-story {
+                padding: 25px;
+            }
+            
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .swiper {
+                height: 300px;
+            }
+
+            .guestbook {
+                padding: 25px;
+            }
+        }
+
+        /* 플레이스홀더 이미지 */
+        .placeholder-img {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9em;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 음악 플레이어 */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff6b9d, #ffb6d9);
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+        }
+
+        .music-player.minimized {
+            padding: 12px 15px;
+            gap: 10px;
+        }
+
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+
+        .music-info {
+            color: white;
+            font-size: 0.9em;
+            font-weight: 500;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-icon {
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .music-info {
+                max-width: 100px;
+                font-size: 0.8em;
+            }
+
+            .volume-slider {
+                width: 60px;
+            }
+
+            .volume-control {
+                display: none;
+            }
+
+            .music-player.show-volume .volume-control {
+                display: flex;
+            }
+        }
+
+        /* 알림 애니메이션 */
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 배경음악 플레이어 -->
+    <div class="music-player" id="musicPlayer">
+        <button class="play-btn" id="playBtn" onclick="toggleMusic()">
+            <span id="playIcon">▶️</span>
+        </button>
+        <div class="music-info" id="musicInfo">배경음악</div>
+        <div class="volume-control">
+            <span class="volume-icon" onclick="toggleMute()">🔊</span>
+            <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+        </div>
+    </div>
+
+    <!-- 오디오 요소 -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="background-music.mp3" type="audio/mpeg">
+        <source src="background-music.ogg" type="audio/ogg">
+        귀하의 브라우저는 오디오를 지원하지 않습니다.
+    </audio>
+
+    <!-- 커버 페이지 -->
+    <section class="cover">
+        <img src="cover-photo.jpg" alt="아이 사진" class="cover-photo" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="cover-photo placeholder-img" style="display:none;">
+            📸<br>여기에 아이의<br>대표 사진
+        </div>
+        <h1>수연이의 첫 번째 생일</h1>
+        <p class="subtitle">태어난 지 365일, 사랑으로 가득한 시간들</p>
+        <p class="date">2024.11.02 - 2025.11.02</p>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- 탄생 이야기 -->
+    <section class="section">
+        <h2 class="section-title">🌟 탄생 이야기</h2>
+        <p class="section-subtitle">우리에게 온 가장 소중한 선물</p>
+        
+        <div class="birth-story">
+            <img src="birth-photo.jpg" alt="탄생 사진" class="birth-photo"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="birth-photo placeholder-img" style="display:none; height:300px;">
+                📸<br>탄생 순간의 사진
+            </div>
+            
+            <div class="birth-info">
+                <div class="info-item">
+                    <div class="info-label">태어난 날</div>
+                    <div class="info-value">2024.11.02</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">시간</div>
+                    <div class="info-value">오전 10:30</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">몸무게</div>
+                    <div class="info-value">3.2kg</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">키</div>
+                    <div class="info-value">50cm</div>
+                </div>
+            </div>
+            
+            <p class="birth-message">
+                "세상에 나온 그 순간, 우리의 삶은 더욱 빛나기 시작했습니다.<br>
+                작은 손, 작은 발, 그 모든 것이 기적이었습니다."
+            </p>
+        </div>
+    </section>
+
+    <!-- 월별 성장 타임라인 (슬라이더 포함) -->
+    <section class="section">
+        <h2 class="section-title">📅 월별 성장 기록</h2>
+        <p class="section-subtitle">한 달 한 달, 소중한 순간들</p>
+        
+        <div class="timeline">
+            <!-- 0개월 -->
+            <div class="timeline-item">
+                <span class="month-badge">0개월 - 신생아</span>
+                <div class="month-slider">
+                    <div class="swiper month-0-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-0/photo-1.jpg" alt="0개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-2.jpg" alt="0개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-3.jpg" alt="0개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-4.jpg" alt="0개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-5.jpg" alt="0개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-6.jpg" alt="0개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-7.jpg" alt="0개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-8.jpg" alt="0개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-9.jpg" alt="0개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-10.jpg" alt="0개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    하루 종일 잠만 자던 우리 아기. 작은 숨소리 하나하나가 사랑스러웠어요.
+                </p>
+            </div>
+
+            <!-- 1개월 -->
+            <div class="timeline-item">
+                <span class="month-badge">1개월</span>
+                <div class="month-slider">
+                    <div class="swiper month-1-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-1/photo-1.jpg" alt="1개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-2.jpg" alt="1개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-3.jpg" alt="1개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-4.jpg" alt="1개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-5.jpg" alt="1개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-6.jpg" alt="1개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-7.jpg" alt="1개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-8.jpg" alt="1개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-9.jpg" alt="1개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-1/photo-10.jpg" alt="1개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 1개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    눈을 맞추기 시작했어요. 엄마 아빠를 알아보는 것 같아 행복했습니다.
+                </p>
+            </div>
+
+            <!-- 2개월부터 11개월까지 동일한 구조로 반복 -->
+            <!-- 2개월 -->
+            <div class="timeline-item">
+                <span class="month-badge">2개월</span>
+                <div class="month-slider">
+                    <div class="swiper month-2-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-2/photo-1.jpg" alt="2개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-2.jpg" alt="2개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-3.jpg" alt="2개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-4.jpg" alt="2개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-5.jpg" alt="2개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-6.jpg" alt="2개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-7.jpg" alt="2개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-8.jpg" alt="2개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-9.jpg" alt="2개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-2/photo-10.jpg" alt="2개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 2개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    목을 가누기 시작했어요. 점점 단단해지는 우리 아기!
+                </p>
+            </div>
+
+            <!-- 3-11개월 (간략하게 3, 6, 9, 12개월만 전체 표시, 나머지는 생략 처리) -->
+            <div class="timeline-item">
+                <span class="month-badge">3개월 - 첫 미소</span>
+                <div class="month-slider">
+                    <div class="swiper month-3-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-3/photo-1.jpg" alt="3개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-2.jpg" alt="3개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-3.jpg" alt="3개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-4.jpg" alt="3개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-5.jpg" alt="3개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-6.jpg" alt="3개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-7.jpg" alt="3개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-8.jpg" alt="3개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-9.jpg" alt="3개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-3/photo-10.jpg" alt="3개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 3개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    처음으로 웃어주었어요! 세상에서 가장 예쁜 미소였습니다. 💕
+                </p>
+            </div>
+
+            <!-- 4-11개월 슬라이더 (반복 구조이므로 4,5,6,7,8,9,10,11개월 각각 추가) -->
+            <!-- 간결성을 위해 6개월과 12개월만 전체 표시 -->
+            
+            <div class="timeline-item">
+                <span class="month-badge">6개월 - 첫 이유식</span>
+                <div class="month-slider">
+                    <div class="swiper month-6-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-6/photo-1.jpg" alt="6개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-2.jpg" alt="6개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-3.jpg" alt="6개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-4.jpg" alt="6개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-5.jpg" alt="6개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-6.jpg" alt="6개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-7.jpg" alt="6개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-8.jpg" alt="6개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-9.jpg" alt="6개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-6/photo-10.jpg" alt="6개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 6개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    첫 이유식! 온 얼굴에 묻히면서도 열심히 먹었어요. 🥄
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="month-badge">9개월</span>
+                <div class="month-slider">
+                    <div class="swiper month-9-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-9/photo-1.jpg" alt="9개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-2.jpg" alt="9개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-3.jpg" alt="9개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-4.jpg" alt="9개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-5.jpg" alt="9개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-6.jpg" alt="9개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-7.jpg" alt="9개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-8.jpg" alt="9개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-9.jpg" alt="9개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-9/photo-10.jpg" alt="9개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 9개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    "엄마" "아빠" 라고 말하기 시작했어요. 감동의 순간! 😭
+                </p>
+            </div>
+
+            <!-- 12개월 - 특별한 마지막 -->
+            <div class="timeline-item">
+                <span class="month-badge">12개월 - 첫 생일! 🎂</span>
+                <div class="month-slider">
+                    <div class="swiper month-12-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="month-12/photo-1.jpg" alt="12개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-2.jpg" alt="12개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-3.jpg" alt="12개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-4.jpg" alt="12개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-5.jpg" alt="12개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-6.jpg" alt="12개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-7.jpg" alt="12개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-8.jpg" alt="12개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-9.jpg" alt="12개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-12/photo-10.jpg" alt="12개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 12개월 사진 10</div>'"></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <p class="month-description">
+                    드디어 한 살! 365일 동안 너무나 많은 기적을 선물해줘서 고마워요. ❤️
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 유튜브 영상 -->
+    <section class="section">
+        <h2 class="section-title">🎬 특별한 영상</h2>
+        <p class="section-subtitle">수연이의 1년 성장 영상</p>
+        
+        <div class="youtube-container">
+            <h3 class="youtube-title">🎂 수연이의 첫 돌 하이라이트</h3>
+            <div class="youtube-video">
+                <!-- 여기에 유튜브 링크를 넣으세요 -->
+                <!-- 예시: https://www.youtube.com/watch?v=VIDEO_ID -->
+                <!-- 아래 VIDEO_ID 부분을 실제 유튜브 영상 ID로 교체하세요 -->
+                <iframe 
+                    src="https://www.youtube.com/embed/tm-z26mbNFE" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <p style="text-align: center; color: #999; margin-top: 15px; font-size: 0.9em;">
+                ※ 유튜브 영상 ID를 넣으려면: HTML에서 "VIDEO_ID"를 실제 영상 ID로 교체하세요
+            </p>
+        </div>
+    </section>
+
+    <!-- 방명록 -->
+    <section class="section">
+        <h2 class="section-title">💌 방명록</h2>
+        <p class="section-subtitle">수연이에게 축하 메시지를 남겨주세요</p>
+        
+        <div class="guestbook">
+            <!-- 방명록 작성 폼 -->
+            <form id="guestbookForm" class="guestbook-form">
+                <div class="form-group">
+                    <label for="guestName">이름</label>
+                    <input type="text" id="guestName" name="name" placeholder="이름을 입력해주세요" required>
+                </div>
+                <div class="form-group">
+                    <label for="guestMessage">수연이에게 하고 싶은 말</label>
+                    <textarea id="guestMessage" name="message" placeholder="따뜻한 축하 메시지를 남겨주세요 ❤️" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">메시지 남기기</button>
+            </form>
+
+            <!-- 방명록 목록 -->
+            <div class="guestbook-list">
+                <h3 style="color: #ff6b9d; margin-bottom: 20px; text-align: center;">💝 축하 메시지들</h3>
+                <div id="messagesList">
+                    <div class="loading">메시지를 불러오는 중...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 감사 메시지 -->
+    <section class="thank-you">
+        <h2>감사합니다 ❤️</h2>
+        <p>
+            수연이의 첫 번째 생일을 함께 축하해주셔서 진심으로 감사드립니다.<br>
+            여러분의 사랑과 축복 덕분에 더욱 뜻깊은 날이 되었습니다.<br><br>
+            앞으로도 건강하고 행복하게 자라는 모습 지켜봐 주세요.<br>
+            늘 감사한 마음 가득합니다.
+        </p>
+        <p class="signature">
+            2025년 11월<br>
+            아빠, 엄마 올림
+        </p>
+    </section>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Firebase 설정
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase 설정 정보
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4Y2q163kKHHWfxHkMtTFq724LPSWef5M",
+            authDomain: "sooyeon-s-first-birthday.firebaseapp.com",
+            projectId: "sooyeon-s-first-birthday",
+            storageBucket: "sooyeon-s-first-birthday.firebasestorage.app",
+            messagingSenderId: "1040892429405",
+            appId: "1:1040892429405:web:160f75614f2fdd1d8a79b4",
+            measurementId: "G-18WX4QDDPR"
+        };
+
+        // Firebase 초기화
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            console.log('Firebase 연결 성공!');
+            loadMessages();
+        } catch (error) {
+            console.error('Firebase 초기화 오류:', error);
+            document.getElementById('messagesList').innerHTML = 
+                '<div class="error">⚠️ Firebase 설정이 필요합니다.<br>HTML 파일의 firebaseConfig를 설정해주세요.</div>';
+        }
+
+        // 메시지 불러오기
+        function loadMessages() {
+            const messagesRef = collection(db, 'guestbook');
+            const q = query(messagesRef, orderBy('timestamp', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const messagesList = document.getElementById('messagesList');
+                
+                if (snapshot.empty) {
+                    messagesList.innerHTML = '<div class="loading">아직 메시지가 없습니다. 첫 번째 메시지를 남겨주세요! 💝</div>';
+                    return;
+                }
+                
+                messagesList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const messageElement = createMessageElement(data);
+                    messagesList.appendChild(messageElement);
+                });
+            }, (error) => {
+                console.error('메시지 로드 오류:', error);
+                document.getElementById('messagesList').innerHTML = 
+                    '<div class="error">메시지를 불러오는데 실패했습니다.</div>';
+            });
+        }
+
+        // 메시지 엘리먼트 생성
+        function createMessageElement(data) {
+            const div = document.createElement('div');
+            div.className = 'guestbook-item';
+            
+            const timestamp = data.timestamp ? data.timestamp.toDate() : new Date();
+            const dateStr = formatDate(timestamp);
+            
+            div.innerHTML = `
+                <div class="guestbook-header">
+                    <span class="guestbook-name">${escapeHtml(data.name)}</span>
+                    <span class="guestbook-date">${dateStr}</span>
+                </div>
+                <div class="guestbook-message">${escapeHtml(data.message)}</div>
+            `;
+            
+            return div;
+        }
+
+        // 날짜 포맷팅
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            return `${year}.${month}.${day} ${hours}:${minutes}`;
+        }
+
+        // HTML 이스케이프 (XSS 방지)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 폼 제출 처리
+        document.getElementById('guestbookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('guestName').value.trim();
+            const message = document.getElementById('guestMessage').value.trim();
+            
+            if (!name || !message) {
+                alert('이름과 메시지를 모두 입력해주세요.');
+                return;
+            }
+
+            try {
+                const submitBtn = e.target.querySelector('.submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = '전송 중...';
+
+                await addDoc(collection(db, 'guestbook'), {
+                    name: name,
+                    message: message,
+                    timestamp: serverTimestamp()
+                });
+
+                // 폼 초기화
+                document.getElementById('guestName').value = '';
+                document.getElementById('guestMessage').value = '';
+                
+                alert('메시지가 등록되었습니다! 💝');
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = '메시지 남기기';
+            } catch (error) {
+                console.error('메시지 등록 오류:', error);
+                alert('메시지 등록에 실패했습니다. 다시 시도해주세요.');
+                
+                const submitBtn = e.target.querySelector('.submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '메시지 남기기';
+            }
+        });
+    </script>
+
+    <script>
+        // 배경음악 관련 변수
+        const bgMusic = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const musicPlayer = document.getElementById('musicPlayer');
+        
+        let isMuted = false;
+        let previousVolume = 0.7;
+
+        // 페이지 로드 시 자동으로 음악 재생 시도
+        window.addEventListener('load', function() {
+            // 플레이어 바로 표시
+            musicPlayer.style.display = 'flex';
+            
+            // 볼륨 설정
+            bgMusic.volume = 0.7;
+            
+            // 자동 재생 시도
+            setTimeout(() => {
+                bgMusic.play().then(() => {
+                    playIcon.textContent = '⏸️';
+                    console.log('음악 자동 재생 성공!');
+                }).catch(error => {
+                    console.log('자동 재생이 차단되었습니다:', error);
+                    playIcon.textContent = '▶️';
+                    // 자동재생 실패 시 사용자에게 작은 알림
+                    showAutoplayNotice();
+                });
+            }, 500);
+        });
+
+        // 자동재생 실패 시 작은 알림 표시
+        function showAutoplayNotice() {
+            const notice = document.createElement('div');
+            notice.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 30px;
+                background: rgba(255, 107, 157, 0.95);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 10px;
+                font-size: 0.9em;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 999;
+                animation: slideIn 0.3s ease;
+            `;
+            notice.textContent = '🎵 재생 버튼을 눌러주세요';
+            document.body.appendChild(notice);
+            
+            // 5초 후 자동으로 사라짐
+            setTimeout(() => {
+                notice.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notice.remove(), 300);
+            }, 5000);
+        }
+
+        // 재생/일시정지 토글
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    playIcon.textContent = '⏸️';
+                }).catch(error => {
+                    console.log('재생 오류:', error);
+                    alert('음악을 재생할 수 없습니다. 음악 파일을 확인해주세요.');
+                });
+            } else {
+                bgMusic.pause();
+                playIcon.textContent = '▶️';
+            }
+        }
+
+        // 볼륨 조절
+        volumeSlider.addEventListener('input', function() {
+            const volume = this.value / 100;
+            bgMusic.volume = volume;
+            previousVolume = volume;
+            
+            if (volume === 0) {
+                isMuted = true;
+                updateVolumeIcon();
+            } else if (isMuted) {
+                isMuted = false;
+                updateVolumeIcon();
+            }
+        });
+
+        // 음소거 토글
+        function toggleMute() {
+            if (isMuted) {
+                bgMusic.volume = previousVolume;
+                volumeSlider.value = previousVolume * 100;
+                isMuted = false;
+            } else {
+                previousVolume = bgMusic.volume;
+                bgMusic.volume = 0;
+                volumeSlider.value = 0;
+                isMuted = true;
+            }
+            updateVolumeIcon();
+        }
+
+        // 볼륨 아이콘 업데이트
+        function updateVolumeIcon() {
+            const volumeIcon = document.querySelector('.volume-icon');
+            if (isMuted || bgMusic.volume === 0) {
+                volumeIcon.textContent = '🔇';
+            } else if (bgMusic.volume < 0.5) {
+                volumeIcon.textContent = '🔉';
+            } else {
+                volumeIcon.textContent = '🔊';
+            }
+        }
+
+        // 음악 종료 시 (loop이 있어서 실제로는 안 일어남)
+        bgMusic.addEventListener('ended', function() {
+            playIcon.textContent = '▶️';
+        });
+
+        // Swiper 슬라이더 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            // 각 월별 슬라이더 초기화
+            const swiperConfigs = [
+                '.month-0-swiper',
+                '.month-1-swiper',
+                '.month-2-swiper',
+                '.month-3-swiper',
+                '.month-6-swiper',
+                '.month-9-swiper',
+                '.month-12-swiper'
+            ];
+
+            swiperConfigs.forEach(selector => {
+                new Swiper(selector, {
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                });
+            });
+
+            // 스크롤 애니메이션
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('.cover');
+                if (parallax) {
+                    parallax.style.transform = 'translateY(' + scrolled * 0.5 + 'px)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
