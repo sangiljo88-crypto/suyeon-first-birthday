@@ -213,7 +213,7 @@
 
         .swiper {
             width: 100%;
-            height: 400px;
+            height: 500px;
             border-radius: 15px;
         }
 
@@ -227,7 +227,7 @@
         .swiper-slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .swiper-pagination-bullet {
@@ -446,7 +446,7 @@
             }
 
             .swiper {
-                height: 300px;
+                height: 400px;
             }
 
             .guestbook {
@@ -642,7 +642,7 @@
 
     <!-- 커버 페이지 -->
     <section class="cover">
-        <img src="cover-photo.jpg" alt="아이 사진" class="cover-photo" 
+        <img src="cover-photo.jpg" alt="아이 사진" class="cover-photo" loading="eager" 
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
         <div class="cover-photo placeholder-img" style="display:none;">
             📸<br>여기에 아이의<br>대표 사진
@@ -659,7 +659,7 @@
         <p class="section-subtitle">우리에게 온 가장 소중한 선물</p>
         
         <div class="birth-story">
-            <img src="birth-photo.jpg" alt="탄생 사진" class="birth-photo"
+            <img src="birth-photo.jpg" alt="탄생 사진" class="birth-photo" loading="lazy"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
             <div class="birth-photo placeholder-img" style="display:none; height:300px;">
                 📸<br>탄생 순간의 사진
@@ -703,16 +703,16 @@
                 <div class="month-slider">
                     <div class="swiper month-0-swiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><img src="month-0/photo-1.jpg" alt="0개월 사진 1" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 1</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-2.jpg" alt="0개월 사진 2" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 2</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-3.jpg" alt="0개월 사진 3" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 3</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-4.jpg" alt="0개월 사진 4" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 4</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-5.jpg" alt="0개월 사진 5" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 5</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-6.jpg" alt="0개월 사진 6" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 6</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-7.jpg" alt="0개월 사진 7" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 7</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-8.jpg" alt="0개월 사진 8" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 8</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-9.jpg" alt="0개월 사진 9" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 9</div>'"></div>
-                            <div class="swiper-slide"><img src="month-0/photo-10.jpg" alt="0개월 사진 10" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 10</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-1.jpg" alt="0개월 사진 1" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 1</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-2.jpg" alt="0개월 사진 2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 2</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-3.jpg" alt="0개월 사진 3" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 3</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-4.jpg" alt="0개월 사진 4" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 4</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-5.jpg" alt="0개월 사진 5" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 5</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-6.jpg" alt="0개월 사진 6" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 6</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-7.jpg" alt="0개월 사진 7" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 7</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-8.jpg" alt="0개월 사진 8" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 8</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-9.jpg" alt="0개월 사진 9" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 9</div>'"></div>
+                            <div class="swiper-slide"><img src="month-0/photo-10.jpg" alt="0개월 사진 10" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'placeholder-img\'>📸 0개월 사진 10</div>'"></div>
                         </div>
                         <div class="swiper-pagination"></div>
                         <div class="swiper-button-next"></div>
@@ -1401,6 +1401,8 @@
             swiperConfigs.forEach(selector => {
                 new Swiper(selector, {
                     loop: true,
+                    lazy: true,
+                    preloadImages: false,
                     pagination: {
                         el: '.swiper-pagination',
                         clickable: true,
