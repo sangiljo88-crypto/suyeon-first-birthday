@@ -1441,45 +1441,34 @@
         });
 
         // Swiper 슬라이더 초기화
-        document.addEventListener('DOMContentLoaded', function() {
-            // 각 월별 슬라이더 초기화
-            const swiperConfigs = [
-                '.month-0-swiper',
-                '.month-1-swiper',
-                '.month-2-swiper',
-                '.month-3-swiper',
-                '.month-4-swiper',
-                '.month-5-swiper',
-                '.month-6-swiper',
-                '.month-7-swiper',
-                '.month-8-swiper',
-                '.month-9-swiper',
-                '.month-10-swiper',
-                '.month-11-swiper'
-            ];
-
-            swiperConfigs.forEach(selector => {
-                const swiperElement = document.querySelector(selector);
-                if (swiperElement) {
-                    new Swiper(selector, {
-                        loop: true,
-                        lazy: true,
-                        preloadImages: false,
-                        pagination: {
-                            el: swiperElement.querySelector('.swiper-pagination'),
-                            clickable: true,
-                        },
-                        navigation: {
-                            nextEl: swiperElement.querySelector('.swiper-button-next'),
-                            prevEl: swiperElement.querySelector('.swiper-button-prev'),
-                        },
-                        autoplay: {
-                            delay: 3000,
-                            disableOnInteraction: false,
-                        },
-                    });
+        window.addEventListener('load', function() {
+            // 약간의 지연 후 Swiper 초기화 (모든 리소스 로드 보장)
+            setTimeout(function() {
+                // 0개월부터 11개월까지 각각 초기화
+                for (let i = 0; i <= 11; i++) {
+                    const swiperEl = document.querySelector(`.month-${i}-swiper`);
+                    if (swiperEl) {
+                        new Swiper(`.month-${i}-swiper`, {
+                            loop: true,
+                            lazy: true,
+                            preloadImages: false,
+                            pagination: {
+                                el: `.month-${i}-swiper .swiper-pagination`,
+                                clickable: true,
+                            },
+                            navigation: {
+                                nextEl: `.month-${i}-swiper .swiper-button-next`,
+                                prevEl: `.month-${i}-swiper .swiper-button-prev`,
+                            },
+                            autoplay: {
+                                delay: 3000,
+                                disableOnInteraction: false,
+                            },
+                        });
+                        console.log(`Swiper ${i} 초기화 완료`);
+                    }
                 }
-            });
+            }, 500);
 
             // 스크롤 애니메이션 - parallax 효과 제거
             // 자연스러운 스크롤을 위해 주석처리
