@@ -1459,23 +1459,26 @@
             ];
 
             swiperConfigs.forEach(selector => {
-                new Swiper(selector, {
-                    loop: true,
-                    lazy: true,
-                    preloadImages: false,
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    autoplay: {
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    },
-                });
+                const swiperElement = document.querySelector(selector);
+                if (swiperElement) {
+                    new Swiper(selector, {
+                        loop: true,
+                        lazy: true,
+                        preloadImages: false,
+                        pagination: {
+                            el: swiperElement.querySelector('.swiper-pagination'),
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: swiperElement.querySelector('.swiper-button-next'),
+                            prevEl: swiperElement.querySelector('.swiper-button-prev'),
+                        },
+                        autoplay: {
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        },
+                    });
+                }
             });
 
             // 스크롤 애니메이션 - parallax 효과 제거
