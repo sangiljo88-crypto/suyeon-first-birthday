@@ -15,16 +15,21 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
             background: linear-gradient(135deg, #ffeef8 0%, #fff5e6 100%);
             color: #333;
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
         /* 커버 페이지 */
         .cover {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,6 +38,7 @@
             padding: 20px;
             background: linear-gradient(135deg, #ffb6d9 0%, #ffd9a6 100%);
             position: relative;
+            overflow: hidden;
         }
 
         .cover-photo {
@@ -69,6 +75,12 @@
             position: absolute;
             bottom: 30px;
             animation: bounce 2s infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            transform: scale(1.2);
         }
 
         .scroll-indicator::before {
@@ -1412,7 +1424,9 @@
                 });
             });
 
-            // 스크롤 애니메이션
+            // 스크롤 애니메이션 - parallax 효과 제거
+            // 자연스러운 스크롤을 위해 주석처리
+            /*
             window.addEventListener('scroll', function() {
                 const scrolled = window.pageYOffset;
                 const parallax = document.querySelector('.cover');
@@ -1420,6 +1434,21 @@
                     parallax.style.transform = 'translateY(' + scrolled * 0.5 + 'px)';
                 }
             });
+            */
+            
+            // 스크롤 인디케이터 클릭 시 부드럽게 다음 섹션으로 이동
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', function() {
+                    const nextSection = document.querySelector('.section');
+                    if (nextSection) {
+                        nextSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+                
+                // 클릭 가능하다는 표시
+                scrollIndicator.style.cursor = 'pointer';
+            }
         });
     </script>
 </body>
