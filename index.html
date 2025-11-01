@@ -643,13 +643,13 @@
     <!-- 커버 페이지 -->
     <section class="cover">
         <img src="cover-photo.jpg" alt="아이 사진" class="cover-photo" loading="eager" 
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+             onerror="this.onerror=null; this.src='cover-photo.png'; this.onerror=function(){this.onerror=null; this.src='cover-photo.jpeg'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}">
         <div class="cover-photo placeholder-img" style="display:none;">
             📸<br>여기에 아이의<br>대표 사진
         </div>
         <h1>수연이의 첫 번째 생일</h1>
         <p class="subtitle">태어난 지 365일, 사랑으로 가득한 시간들</p>
-        <p class="date">2024.11.02 - 2025.11.02</p>
+        <p class="date">2024.11.04 - 2025.11.04</p>
         <div class="scroll-indicator"></div>
     </section>
 
@@ -660,7 +660,7 @@
         
         <div class="birth-story">
             <img src="birth-photo.jpg" alt="탄생 사진" class="birth-photo" loading="lazy"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                 onerror="this.onerror=null; this.src='birth-photo.png'; this.onerror=function(){this.onerror=null; this.src='birth-photo.jpeg'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}">
             <div class="birth-photo placeholder-img" style="display:none; height:300px;">
                 📸<br>탄생 순간의 사진
             </div>
@@ -668,19 +668,19 @@
             <div class="birth-info">
                 <div class="info-item">
                     <div class="info-label">태어난 날</div>
-                    <div class="info-value">2024.11.02</div>
+                    <div class="info-value">2024.11.04</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">시간</div>
-                    <div class="info-value">오전 10:30</div>
+                    <div class="info-value">오후 4:46</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">몸무게</div>
-                    <div class="info-value">3.2kg</div>
+                    <div class="info-value">3.44kg</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">키</div>
-                    <div class="info-value">50cm</div>
+                    <div class="info-value">52cm</div>
                 </div>
             </div>
             
@@ -1287,9 +1287,31 @@
                     playIcon.textContent = '▶️';
                     // 자동재생 실패 시 사용자에게 작은 알림
                     showAutoplayNotice();
+                    // 사용자가 페이지를 클릭하면 자동 재생 시도
+                    enablePlayOnInteraction();
                 });
             }, 500);
         });
+
+        // 사용자 상호작용 시 음악 재생
+        function enablePlayOnInteraction() {
+            const playOnce = () => {
+                if (bgMusic.paused) {
+                    bgMusic.play().then(() => {
+                        playIcon.textContent = '⏸️';
+                        console.log('사용자 클릭으로 음악 재생 성공!');
+                    }).catch(error => {
+                        console.log('재생 실패:', error);
+                    });
+                }
+                // 한 번만 실행되도록
+                document.removeEventListener('click', playOnce);
+                document.removeEventListener('touchstart', playOnce);
+            };
+            
+            document.addEventListener('click', playOnce);
+            document.addEventListener('touchstart', playOnce);
+        }
 
         // 자동재생 실패 시 작은 알림 표시
         function showAutoplayNotice() {
