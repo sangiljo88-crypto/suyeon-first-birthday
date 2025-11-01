@@ -283,6 +283,15 @@
             border-radius: 10px;
         }
 
+        #youtube-player {
+            width: 100%;
+            height: 100%;
+        }
+
+        #youtube-player iframe {
+            border-radius: 15px;
+        }
+
         .youtube-video iframe {
             position: absolute;
             top: 0;
@@ -1045,16 +1054,8 @@
         
         <div class="youtube-container">
             <h3 class="youtube-title">🎂 수연이의 첫 돌 하이라이트</h3>
-            <div class="youtube-video" style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; padding-bottom: 177.78%; height: 0;">
-                <iframe 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                    src="https://www.youtube.com/embed/sDviwBFXlY0?autoplay=0&mute=0&loop=1&playlist=sDviwBFXlY0" 
-                    title="수연이의 첫 돌 하이라이트"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen
-                    referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
+            <div style="position: relative; width: 100%; max-width: 360px; margin: 0 auto; height: 640px; max-height: 70vh; border-radius: 15px; overflow: hidden;">
+                <div id="youtube-player"></div>
             </div>
         </div>
     </section>
@@ -1105,6 +1106,61 @@
 
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- YouTube IFrame API -->
+    <script>
+        // YouTube IFrame API 로드
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        var bgMusic = document.getElementById('bgMusic');
+        var wasPlayingBeforeYoutube = false;
+
+        // YouTube Player API 준비 완료 시 호출
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '100%',
+                width: '100%',
+                videoId: 'sDviwBFXlY0',
+                playerVars: {
+                    'autoplay': 0,
+                    'mute': 0,
+                    'loop': 1,
+                    'playlist': 'sDviwBFXlY0',
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // YouTube 플레이어 상태 변경 시
+        function onPlayerStateChange(event) {
+            // YT.PlayerState.PLAYING (1) - 재생 중
+            if (event.data == YT.PlayerState.PLAYING) {
+                // 배경음악이 재생 중이었다면 기억하고 일시정지
+                if (!bgMusic.paused) {
+                    wasPlayingBeforeYoutube = true;
+                    bgMusic.pause();
+                    document.getElementById('playIcon').textContent = '▶️';
+                }
+            }
+            // YT.PlayerState.PAUSED (2) 또는 ENDED (0) - 일시정지 또는 종료
+            else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+                // 유튜브 재생 전에 배경음악이 재생 중이었다면 다시 재생
+                if (wasPlayingBeforeYoutube) {
+                    bgMusic.play();
+                    document.getElementById('playIcon').textContent = '⏸️';
+                    wasPlayingBeforeYoutube = false;
+                }
+            }
+        }
+    </script>
     
     <!-- Firebase SDK -->
     <script type="module">
