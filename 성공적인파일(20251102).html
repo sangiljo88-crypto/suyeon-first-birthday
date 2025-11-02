@@ -8,9 +8,6 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
-    <!-- Tally -->
-    <script async src="https://tally.so/widgets/embed.js"></script>
-    
     <style>
         * {
             margin: 0;
@@ -633,53 +630,6 @@
                 opacity: 0;
             }
         }
-
-        /* 돌잡이이벤트 버튼 */
-        .event-button {
-            position: fixed;
-            right: 30px;
-            background: linear-gradient(135deg, #ff9a56, #ff6b9d);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
-            transition: all 0.3s ease;
-            z-index: 999;
-            white-space: nowrap;
-        }
-
-        .event-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
-        }
-
-        .event-button.top {
-            top: 30px;
-        }
-
-        .event-button.bottom {
-            bottom: 130px; /* 음악 플레이어 위에 위치 */
-        }
-
-        @media (max-width: 768px) {
-            .event-button {
-                right: 20px;
-                padding: 12px 20px;
-                font-size: 0.9em;
-            }
-
-            .event-button.top {
-                top: 20px;
-            }
-
-            .event-button.bottom {
-                bottom: 100px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -701,16 +651,6 @@
         <source src="background-music.ogg" type="audio/ogg">
         귀하의 브라우저는 오디오를 지원하지 않습니다.
     </audio>
-
-    <!-- 돌잡이이벤트 버튼 (상단) -->
-    <button class="event-button top" data-tally-open="mVRr6j" data-tally-emoji-text="👋" data-tally-emoji-animation="wave">
-        돌잡이이벤트
-    </button>
-
-    <!-- 돌잡이이벤트 버튼 (하단) -->
-    <button class="event-button bottom" data-tally-open="mVRr6j" data-tally-emoji-text="👋" data-tally-emoji-animation="wave">
-        돌잡이이벤트
-    </button>
 
     <!-- 커버 페이지 -->
     <section class="cover">
